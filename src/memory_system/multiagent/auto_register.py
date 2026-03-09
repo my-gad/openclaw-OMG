@@ -28,26 +28,102 @@ ENV_AGENT_DESC = "OPENCLAW_AGENT_DESCRIPTION"
 ENV_DEFAULT_ORG = "OPENCLAW_DEFAULT_ORG"
 ENV_AUTO_JOIN = "OPENCLAW_AUTO_JOIN"
 ENV_MEMORY_DIR = "OPENCLAW_MEMORY_DIR"
+ENV_OPENCLAW_CONFIG = "OPENCLAW_CONFIG_PATH"
+
+
+def load_openclaw_agents() -> Dict[str, Dict]:
+    """
+    从 OpenClaw 主配置读取 Agent 列表
+    
+    Returns:
+        {agent_id: {name, role, workspace, ...}}
+    """
+    # 查找配置文件
+    config_paths = [
+        os.path.expanduser("~/.openclaw/openclaw.json"),
+        os.path.expanduser("~/.config/openclaw/openclaw.json"),
+    ]
+    
+    for config_path in config_paths:
+        if os.path.exists(config_path):
+            try:
+                with open(config_path, 'r', encoding='utf-8') as f:
+                    config = json.load(f)
+                
+                agents = {}
+                agents_config = config.get("agents", {})
+                agent_list = agents_config.get("list", []) if isinstance(agents_config, dict) else []
+                
+                for agent in agent_list:
+                    agent_id = agent.get("id", "")
+                    if agent_id:
+                        # 映射 role - main 角色用 main，其他用 assistant
+                        role = "main" if agent_id == "main" else "assistant"
+                        
+                        # 清理名称（去除空格）
+                        name = agent.get("name", agent_id).replace(" ", "")
+                        
+                        agents[agent_id] = {
+                            "name": name,
+                            "role": role,
+                            "workspace": agent.get("workspace", ""),
+                            "model": agent.get("model", {}).get("primary", "") if isinstance(agent.get("model"), dict) else str(agent.get("model", "")),
+                        }
+                
+                if agents:
+                    return agents
+            except Exception as e:
+                print(f"Warning: 读取 OpenClaw 配置失败: {e}")
+    
+    return {}
+
+
+# 缓存 OpenClaw Agent 配置
+OPENCLAW_AGENTS = load_openclaw_agents()
 
 
 def get_current_agent_identity() -> Tuple[str, str, str]:
     """
     获取当前 Agent 的身份信息
     
+    优先级：
+    1. 环境变量 (OPENCLAW_AGENT_NAME)
+    2. OpenClaw 主配置 (~/.openclaw/openclaw.json)
+    3. 系统默认值
+    
     Returns:
         (agent_name, agent_role, description)
     """
-    # 从环境变量获取
+    # 1. 优先从环境变量获取
     agent_name = os.getenv(ENV_AGENT_NAME, "")
-    agent_role = os.getenv(ENV_AGENT_ROLE, "assistant")
+    agent_role = os.getenv(ENV_AGENT_ROLE, "")
     agent_desc = os.getenv(ENV_AGENT_DESC, "")
     
-    # 如果没有设置，使用默认值
+    # 2. 如果环境变量没有，尝试从 OpenClaw 配置获取
+    if not agent_name and OPENCLAW_AGENTS:
+        # 尝试从当前进程或环境获取 agent_id
+        # 检查常见的 OpenClaw 环境变量
+        current_agent_id = os.getenv("OPENCLAW_CURRENT_AGENT", os.getenv("AGENT_ID", ""))
+        
+        if current_agent_id and current_agent_id in OPENCLAW_AGENTS:
+            oc_agent = OPENCLAW_AGENTS[current_agent_id]
+            agent_name = oc_agent["name"]
+            agent_role = oc_agent.get("role", "assistant")
+            agent_desc = f"OpenClaw Agent - {oc_agent.get('model', '')}"
+        elif OPENCLAW_AGENTS:
+            # 如果没有指定，使用第一个 Agent
+            first_id = list(OPENCLAW_AGENTS.keys())[0]
+            oc_agent = OPENCLAW_AGENTS[first_id]
+            agent_name = oc_agent["name"]
+            agent_role = oc_agent.get("role", "assistant")
+            agent_desc = f"OpenClaw Agent - {oc_agent.get('model', '')}"
+    
+    # 3. 如果都没有，使用默认值
     if not agent_name:
-        # 使用系统用户名 + 主机名
         username = getpass.getuser()
         hostname = socket.gethostname()
         agent_name = f"{username}@{hostname}"
+        agent_role = "assistant"
     
     if not agent_desc:
         agent_desc = f"自动注册的 Agent - {datetime.now().strftime('%Y-%m-%d %H:%M')}"

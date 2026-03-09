@@ -1,6 +1,6 @@
 ---
 name: openclaw-omg
-version: 1.5.0
+version: 2.0.0
 description: OpenClaw-OMG (Optimized Memory Gateway) - 三层记忆架构系统。自动提取、结构化存储、智能衰减、动态快照。
 metadata:
   clawdbot:
@@ -14,7 +14,7 @@ metadata:
         label: "初始化 OMG 记忆系统目录结构"
 ---
 
-# OpenClaw-OMG v1.5.0 — 三层记忆架构
+# OpenClaw-OMG v2.0.0 — 三层记忆架构
 
 > **让 AI 从金鱼变成大象。**
 

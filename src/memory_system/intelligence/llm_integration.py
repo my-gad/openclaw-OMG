@@ -202,20 +202,7 @@ def get_llm_config(provider: Optional[str] = None, model: Optional[str] = None) 
                     "provider": target_provider,
                 }
     
-    # 3. 备用：环境变量
-    api_config = LLM_INTEGRATION_CONFIG["api"]
-    env_key = api_config["env_key"]
-    api_key = os.environ.get(env_key)
-    
-    if api_key:
-        return {
-            "api_key": api_key,
-            "base_url": os.environ.get("OPENAI_BASE_URL", api_config["default_base_url"]),
-            "model": target_model,
-            "provider": "env",
-        }
-    
-    # 4. 无配置
+    # 3. 无配置
     return {"api_key": None, "base_url": None, "model": None, "provider": None}
 
 # 统计信息

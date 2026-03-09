@@ -61,13 +61,10 @@ class AgentConfigManager:
         
         Args:
             config_path: 配置文件路径
-                        如果未指定，从环境变量 OPENCLAW_CONFIG 读取
-                        如果环境变量也未设置，使用默认路径 ./agent_config.json
+                        如果未指定，使用默认路径 ./agent_config.json
         """
         if config_path:
             self.config_path = Path(config_path)
-        elif os.getenv("OPENCLAW_CONFIG"):
-            self.config_path = Path(os.getenv("OPENCLAW_CONFIG"))
         else:
             self.config_path = Path("./agent_config.json")
         

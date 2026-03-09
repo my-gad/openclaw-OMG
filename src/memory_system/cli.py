@@ -355,6 +355,60 @@ def import_command(args):
     print(f"✅ 已导入 {count}/{len(data)} 条记录")
 
 
+def integration_command(args):
+    """OpenClaw 集成命令"""
+    from memory_system.integration.openclaw_integration import (
+        inject_to_system_prompt,
+        capture_from_message,
+        run_consolidation,
+        generate_cron_config,
+        install_cron,
+        get_integration_status,
+    )
+    
+    if args.inject:
+        success = inject_to_system_prompt(args.inject)
+        if success:
+            print(f"✅ 快照已注入到 Agent {args.inject}")
+        else:
+            print(f"❌ 注入失败")
+    
+    elif args.capture:
+        msg, session, idx = args.capture
+        result = capture_from_message(msg, session, int(idx))
+        if result.get("success"):
+            print(f"✅ 消息已捕获")
+        else:
+            print(f"❌ 捕获失败: {result.get('error')}")
+    
+    elif args.consolidate:
+        result = run_consolidation()
+        if result.get("success"):
+            print(f"✅ 记忆整合完成")
+        else:
+            print(f"❌ 整合失败: {result.get('error')}")
+    
+    elif args.cron:
+        print(generate_cron_config())
+    
+    elif args.install_cron:
+        if install_cron():
+            print(f"✅ Cron 定时任务已安装")
+        else:
+            print(f"ℹ️ Cron 任务已存在，无需重复安装")
+    
+    elif args.status:
+        status = get_integration_status()
+        print("📊 集成状态:")
+        print(f" - OpenClaw 配置: {'✅' if status['openclaw_config_exists'] else '❌'}")
+        print(f" - 记忆目录: {'✅' if status['memory_dir_exists'] else '❌'}")
+        print(f" - 快照可用: {'✅' if status['snapshot_available'] else '❌'}")
+        print(f" - 待处理记忆: {status['pending_count']} 条")
+    
+    else:
+        print("使用 --help 查看集成命令选项")
+
+
 def cleanup_command(args):
     """清理过期/低权重记忆"""
     memory_dir = Path(args.dir) if args.dir else Path("./memory")
@@ -535,6 +589,16 @@ def main():
     # status
     p = subparsers.add_parser("status", help="查看系统状态")
     p.set_defaults(func=status_command)
+    
+    # integration - OpenClaw 集成
+    p = subparsers.add_parser("integration", help="OpenClaw 集成命令")
+    p.add_argument("--inject", metavar="AGENT_ID", help="注入快照到 Agent")
+    p.add_argument("--capture", nargs=3, metavar=("MSG", "SESSION", "INDEX"), help="捕获消息")
+    p.add_argument("--consolidate", action="store_true", help="执行整合")
+    p.add_argument("--cron", action="store_true", help="生成 Cron 配置")
+    p.add_argument("--install-cron", action="store_true", help="安装 Cron 定时任务")
+    p.add_argument("--status", action="store_true", help="查看集成状态")
+    p.set_defaults(func=integration_command)
     
     # export
     p = subparsers.add_parser("export", help="导出记忆")

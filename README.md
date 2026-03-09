@@ -1,4 +1,4 @@
-# OpenClaw-OMG v1.6.0
+# OpenClaw-OMG v2.0.0
 
 **Optimized Memory Gateway** - AI Agent 记忆超系统
 
@@ -25,20 +25,36 @@ PYTHONPATH=src python3 -m memory_system.cli init
 ### 基本使用
 
 ```bash
+# 初始化
+python3 -m memory_system.cli init
+
 # 添加记忆
 python3 -m memory_system.cli add "这是一条测试记忆" --type fact --confidence 0.9
+
+# 即时捕获（自动评分）
+python3 -m memory_system.cli capture "用户对花生过敏" --session session123 --index 5
 
 # 搜索记忆
 python3 -m memory_system.cli search "测试"
 
+# 执行记忆整合
+python3 -m memory_system.cli consolidate
+
+# OpenClaw 集成
+python3 -m memory_system.cli integration --status
+python3 -m memory_system.cli integration --inject main
+python3 -m memory_system.cli integration --install-cron
+
 # 查看状态
 python3 -m memory_system.cli status
 
-# 导出记忆
+# 导出/导入
 python3 -m memory_system.cli export -o backup.json
-
-# 导入记忆
 python3 -m memory_system.cli import backup.json
+
+# 多 Agent 管理
+python3 -m memory_system.cli agent-list
+python3 -m memory_system.cli agent-register jiajia --name "执行董事-佳佳"
 ```
 
 ---
@@ -153,7 +169,7 @@ PYTHONPATH=src python3 -m unittest tests.test_memory_manager -v
 
 ```json
 {
-  "version": "1.6.0",
+  "version": "2.0.0",
   "memory_dir": "./memory",
   "decay_rates": {
     "fact": 0.008,
@@ -184,6 +200,17 @@ PYTHONPATH=src python3 -m unittest tests.test_memory_manager -v
 ---
 
 ## 🚀 版本历史
+
+### v2.0.0 (2026-03-09)
+- ✅ LLM 配置集成 - 自动读取 OpenClaw 主配置
+- ✅ 多 Provider 支持 - xunfei / nvidia
+- ✅ 自动注册机制 - CLI 执行时自动注册 Agent
+- ✅ 即时记忆捕获 - `capture` 命令自动评分
+- ✅ 关键词触发检测 - detect_trigger_layer
+- ✅ 快照自动生成 - snapshot_generator
+- ✅ OpenClaw 集成模块 - 快照注入/会话捕获/Cron
+- ✅ Agent 列表同步 - 从 OpenClaw 配置读取
+- ✅ 移除环境变量依赖 - 全部配置从文件读取
 
 ### v1.6.0 (2026-03-09)
 - ✅ 重构为模块化架构
@@ -239,5 +266,5 @@ MIT License - 详见 [LICENSE](LICENSE) 文件
 ---
 
 **最后更新:** 2026-03-09  
-**版本:** v1.6.0  
-**状态:** ✅ Phase 1-5 完成
+**版本:** v2.0.0  
+**状态:** ✅ 生产就绪

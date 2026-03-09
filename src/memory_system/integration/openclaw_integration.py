@@ -16,9 +16,10 @@ from typing import Optional, List, Dict, Any
 from datetime import datetime
 
 
-# OpenClaw 配置路径
+# Skill 目录路径
+SKILL_DIR = Path(__file__).parent.parent.parent.parent
 OPENCLAW_CONFIG_PATH = Path.home() / ".openclaw" / "openclaw.json"
-OPENCLAW_MEMORY_DIR = Path.home() / ".openclaw" / "workspace" / "openclaw-OMG" / "memory"
+OPENCLAW_MEMORY_DIR = SKILL_DIR / "memory"
 
 
 def get_openclaw_config() -> Dict:

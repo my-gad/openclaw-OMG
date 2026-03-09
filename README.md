@@ -2,7 +2,7 @@
 
 **Optimized Memory Gateway** - AI Agent 三层记忆超系统
 
-[![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)](https://github.com/my-gad/openclaw-OMG)
+[![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)](https://github.com/my-gad/openclaw-omg)
 [![Python](https://img.shields.io/badge/python-3.8+-green.svg)](https://python.org)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
@@ -23,7 +23,7 @@
 ## 文件结构
 
 ```
-openclaw-OMG/
+openclaw-omg/
 ├── README.md                 # 项目说明
 ├── CHANGELOG.md              # 版本历史
 ├── MULTIAGENT.md             # 多 Agent 文档
@@ -143,8 +143,8 @@ openclaw-OMG/
 
 ```bash
 # 克隆项目
-git clone https://github.com/my-gad/openclaw-OMG.git
-cd openclaw-OMG
+git clone https://github.com/my-gad/openclaw-omg.git
+cd openclaw-omg
 
 # 初始化
 PYTHONPATH=src python3 -m memory_system.cli init

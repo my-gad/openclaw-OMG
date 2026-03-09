@@ -101,6 +101,20 @@ def init_command(args):
         encoding='utf-8'
     )
     print(f" ✓ 创建快照文件：{snapshot_path}")
+
+    # 自动安装 Cron 定时任务
+    print("\n⏰ 安装 Cron 定时任务...")
+    try:
+        from memory_system.integration.openclaw_integration import install_cron
+        if install_cron():
+            print(" ✓ Cron 定时任务已安装")
+            print("   - 每天 03:00 执行记忆整合")
+            print("   - 每小时更新快照")
+        else:
+            print(" ℹ️ Cron 任务已存在，无需重复安装")
+    except Exception as e:
+        print(f" ⚠️ Cron 安装失败: {e}")
+
     
     print(f"\n✅ 初始化完成！记忆目录：{memory_dir.absolute()}")
 

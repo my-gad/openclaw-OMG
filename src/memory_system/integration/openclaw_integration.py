@@ -177,9 +177,17 @@ def generate_cron_config() -> str:
     Returns:
         Crontab 配置行
     """
+    # Skill 目录（存放代码）
+    skill_dir = Path.home() / ".openclaw" / "skills" / "openclaw-omg"
+    
     # 每天凌晨 3 点执行 Consolidation
     cron_line = "0 3 * * * cd {} && PYTHONPATH=src python3 -m memory_system.cli consolidate >> /tmp/omg_consolidation.log 2>&1".format(
-        OPENCLAW_MEMORY_DIR.parent
+        skill_dir
+    )
+    
+    # 每小时更新快照
+    snapshot_line = "0 * * * * cd {} && PYTHONPATH=src python3 -c \"from memory_system.core.snapshot_generator import update_snapshot; update_snapshot('{}')\" >> /tmp/omg_snapshot.log 2>&1".format(
+        skill_dir, OPENCLAW_MEMORY_DIR
     )
     
     return f"""
@@ -188,7 +196,7 @@ def generate_cron_config() -> str:
 {cron_line}
 
 # 每小时更新快照
-0 * * * * cd {OPENCLAW_MEMORY_DIR.parent} && PYTHONPATH=src python3 -c "from memory_system.core.snapshot_generator import update_snapshot; update_snapshot('{OPENCLAW_MEMORY_DIR}')" >> /tmp/omg_snapshot.log 2>&1
+{snapshot_line}
 """
 
 

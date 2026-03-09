@@ -28,7 +28,8 @@ metadata:
 
 Skill 安装后自动执行：
 1. 初始化记忆系统目录结构
-2. 检查并安装 Cron 定时任务（若不存在）
+2. **自动安装 Cron 定时任务**
+3. 创建初始快照
 
 ```bash
 # 查看 Skill 状态
@@ -42,12 +43,9 @@ openclaw skills info openclaw-omg
 # 1. 克隆项目到 Skill 目录
 git clone https://github.com/my-gad/openclaw-omg.git ~/.openclaw/skills/openclaw-omg
 
-# 2. 初始化
+# 2. 初始化（自动安装 Cron）
 cd ~/.openclaw/skills/openclaw-omg
 PYTHONPATH=src python3 -m memory_system.cli init
-
-# 3. 安装 Cron（可选）
-PYTHONPATH=src python3 -m memory_system.cli integration --install-cron
 ```
 
 ---

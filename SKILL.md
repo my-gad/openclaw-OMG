@@ -110,8 +110,8 @@ python3 -m memory_system.cli integration --install-cron
 | 类型 | 路径 |
 |------|------|
 | Skill 代码 | `~/.openclaw/skills/openclaw-omg/` |
-| 记忆数据 | `~/.openclaw/skills/openclaw-omg/memory/` |
-| 配置文件 | `~/.openclaw/skills/openclaw-omg/memory/config.json` |
+| 记忆数据 | `~/.openclaw/memory/openclaw-omg/` |
+| 配置文件 | `~/.openclaw/memory/openclaw-omg/config.json` |
 
 ---
 

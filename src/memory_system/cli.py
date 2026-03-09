@@ -59,7 +59,9 @@ def ensure_current_agent(memory_dir: Path) -> Optional[str]:
 
 def get_memory_manager(args) -> Optional[MemoryManager]:
     """获取记忆管理器实例"""
-    memory_dir = Path(args.dir) if hasattr(args, 'dir') and args.dir else Path("./memory")
+    # 默认使用 OpenClaw 记忆目录
+    default_memory_dir = Path.home() / ".openclaw" / "memory" / "openclaw-omg"
+    memory_dir = Path(args.dir) if hasattr(args, 'dir') and args.dir else default_memory_dir
     if not memory_dir.exists():
         return None
     return MemoryManager(memory_dir)
@@ -69,7 +71,9 @@ def init_command(args):
     """初始化记忆系统"""
     print(f"🧠 初始化 Memory System v{__version__}")
     
-    memory_dir = Path(args.dir) if args.dir else Path("./memory")
+    # 默认使用 OpenClaw 记忆目录
+    default_memory_dir = Path.home() / ".openclaw" / "memory" / "openclaw-omg"
+    memory_dir = Path(args.dir) if args.dir else default_memory_dir
     
     # 创建目录结构
     dirs = [
@@ -109,7 +113,7 @@ def add_command(args):
     
     print(f"📝 添加记忆：{content[:50]}...")
     
-    memory_dir = Path(args.dir) if args.dir else Path("./memory")
+    memory_dir = Path(args.dir) if args.dir else Path.home() / ".openclaw" / "memory" / "openclaw-omg"
     if not memory_dir.exists():
         print("❌ 记忆系统未初始化，先运行 'memory-system init'")
         return
@@ -146,7 +150,7 @@ def capture_command(args):
     
     print(f"📸 捕获记忆：{content[:50]}...")
     
-    memory_dir = Path(args.dir) if args.dir else Path("./memory")
+    memory_dir = Path(args.dir) if args.dir else Path.home() / ".openclaw" / "memory" / "openclaw-omg"
     if not memory_dir.exists():
         print("❌ 记忆系统未初始化，先运行 'memory-system init'")
         return
@@ -182,7 +186,7 @@ def search_command(args):
     query = args.query
     print(f"🔍 搜索：{query}")
     
-    memory_dir = Path(args.dir) if args.dir else Path("./memory")
+    memory_dir = Path(args.dir) if args.dir else Path.home() / ".openclaw" / "memory" / "openclaw-omg"
     if not memory_dir.exists():
         print("❌ 记忆系统未初始化")
         return
@@ -205,7 +209,7 @@ def consolidate_command(args):
     """执行记忆整合"""
     print("🔄 执行记忆整合...")
     
-    memory_dir = Path(args.dir) if args.dir else Path("./memory")
+    memory_dir = Path(args.dir) if args.dir else Path.home() / ".openclaw" / "memory" / "openclaw-omg"
     if not memory_dir.exists():
         print("❌ 记忆系统未初始化")
         return
@@ -240,7 +244,7 @@ def status_command(args):
     """查看系统状态"""
     print(f"📊 Memory System v{__version__} 状态\n")
     
-    memory_dir = Path(args.dir) if args.dir else Path("./memory")
+    memory_dir = Path(args.dir) if args.dir else Path.home() / ".openclaw" / "memory" / "openclaw-omg"
     
     if not memory_dir.exists():
         print("❌ 记忆系统未初始化，运行 'memory-system init'")
@@ -288,7 +292,7 @@ def status_command(args):
 
 def export_command(args):
     """导出记忆"""
-    memory_dir = Path(args.dir) if args.dir else Path("./memory")
+    memory_dir = Path(args.dir) if args.dir else Path.home() / ".openclaw" / "memory" / "openclaw-omg"
     if not memory_dir.exists():
         print("❌ 记忆系统未初始化")
         return
@@ -325,7 +329,7 @@ def import_command(args):
         print(f"❌ 文件不存在：{input_file}")
         return
     
-    memory_dir = Path(args.dir) if args.dir else Path("./memory")
+    memory_dir = Path(args.dir) if args.dir else Path.home() / ".openclaw" / "memory" / "openclaw-omg"
     if not memory_dir.exists():
         print("❌ 记忆系统未初始化")
         return
@@ -411,7 +415,7 @@ def integration_command(args):
 
 def cleanup_command(args):
     """清理过期/低权重记忆"""
-    memory_dir = Path(args.dir) if args.dir else Path("./memory")
+    memory_dir = Path(args.dir) if args.dir else Path.home() / ".openclaw" / "memory" / "openclaw-omg"
     if not memory_dir.exists():
         print("❌ 记忆系统未初始化")
         return
@@ -435,7 +439,7 @@ def cleanup_command(args):
 
 def list_command(args):
     """列出所有记忆"""
-    memory_dir = Path(args.dir) if args.dir else Path("./memory")
+    memory_dir = Path(args.dir) if args.dir else Path.home() / ".openclaw" / "memory" / "openclaw-omg"
     if not memory_dir.exists():
         print("❌ 记忆系统未初始化")
         return
@@ -460,7 +464,7 @@ def agent_register_command(args):
         print("❌ 多 Agent 模块不可用")
         return
     
-    memory_dir = Path(args.dir) if args.dir else Path("./memory")
+    memory_dir = Path(args.dir) if args.dir else Path.home() / ".openclaw" / "memory" / "openclaw-omg"
     if not memory_dir.exists():
         print("❌ 记忆系统未初始化")
         return
@@ -496,7 +500,7 @@ def agent_list_command(args):
         print("❌ 多 Agent 模块不可用")
         return
     
-    memory_dir = Path(args.dir) if args.dir else Path("./memory")
+    memory_dir = Path(args.dir) if args.dir else Path.home() / ".openclaw" / "memory" / "openclaw-omg"
     if not memory_dir.exists():
         print("❌ 记忆系统未初始化")
         return
@@ -523,7 +527,7 @@ def agent_status_command(args):
         print("❌ 多 Agent 模块不可用")
         return
     
-    memory_dir = Path(args.dir) if args.dir else Path("./memory")
+    memory_dir = Path(args.dir) if args.dir else Path.home() / ".openclaw" / "memory" / "openclaw-omg"
     if not memory_dir.exists():
         print("❌ 记忆系统未初始化")
         return

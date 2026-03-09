@@ -284,3 +284,59 @@ def auto_register_cli():
 
 if __name__ == "__main__":
     auto_register_cli()
+
+
+def register_all_openclaw_agents(memory_dir: Path) -> Dict[str, bool]:
+    """
+    注册 OpenClaw 配置中的所有未注册 Agent
+    
+    Returns:
+        {agent_id: 是否新注册}
+    """
+    if not OPENCLAW_AGENTS:
+        return {}
+    
+    agent_manager = AgentManager(memory_dir)
+    
+    # 获取已注册 Agent ID 集合
+    existing_ids = {a.agent_id for a in agent_manager.list_agents()}
+    
+    results = {}
+    for agent_id, oc_agent in OPENCLAW_AGENTS.items():
+        if agent_id in existing_ids:
+            # Agent 已存在，更新状态为 ACTIVE
+            agent_manager.update_agent_status(agent_id, AgentStatus.ACTIVE)
+            results[agent_id] = False
+        else:
+            # 创建新 Agent
+            role_map = {
+                "main": AgentRole.MAIN,
+                "assistant": AgentRole.ASSISTANT,
+                "specialist": AgentRole.SPECIALIST,
+                "observer": AgentRole.OBSERVER,
+            }
+            role = role_map.get(oc_agent.get("role", "assistant").lower(), AgentRole.ASSISTANT)
+            
+            new_id = agent_manager.register_agent(
+                name=oc_agent["name"],
+                role=role,
+                description=oc_agent.get("description", f"OpenClaw Agent - {oc_agent.get('model', '')}"),
+                isolated_memory=True,
+            )
+            results[agent_id] = True
+    
+    return results
+
+
+def ensure_all_agents(memory_dir: Path) -> None:
+    """确保所有 OpenClaw Agent 都已注册"""
+    results = register_all_openclaw_agents(memory_dir)
+    
+    new_count = sum(1 for is_new in results.values() if is_new)
+    if new_count > 0:
+        print(f"✅ 自动注册 {new_count} 个新 Agent")
+        for agent_id, is_new in results.items():
+            if is_new:
+                print(f"   - {OPENCLAW_AGENTS[agent_id]['name']}")
+    else:
+        print("ℹ️ 所有 Agent 均已注册")

@@ -104,6 +104,14 @@ def init_command(args):
     )
     print(f" ✓ 创建快照文件：{snapshot_path}")
 
+    
+    # 注册所有 OpenClaw Agent
+    print("\n👥 注册 OpenClaw Agents...")
+    try:
+        from memory_system.multiagent.auto_register import ensure_all_agents
+        ensure_all_agents(memory_dir)
+    except Exception as e:
+        print(f" ⚠️ Agent 注册失败: {e}")
     # 自动安装 Cron 定时任务
     print("\n⏰ 安装 Cron 定时任务...")
     try:

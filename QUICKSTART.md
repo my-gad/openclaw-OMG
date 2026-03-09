@@ -161,7 +161,7 @@ A: 参考 [INSTALL.md](INSTALL.md) 的升级指南
 
 1. 查看文档：`ls *.md`
 2. 运行测试：`python3 -m unittest discover tests -v`
-3. 提交 Issue: https://github.com/ktao732084-arch/openclaw-OMG/issues
+3. 提交 Issue: https://github.com/my-gad/openclaw-OMG/issues
 
 ---
 

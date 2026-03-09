@@ -4,11 +4,11 @@
 
 ## 项目信息
 
-- **原名**: openclaw_memory_supersystem-v1.0
+- **原名**: openclaw-OMG
 - **现名**: openclaw-OMG
 - **版本**: v1.5.0 (重构版)
 - **重命名日期**: 2026-03-08
-- **作者**: ktao732084-arch
+- **作者**: my-gad
 
 ## 名称含义
 
@@ -82,6 +82,6 @@ python3 scripts/migrate.py
 
 ## 相关链接
 
-- GitHub: https://github.com/ktao732084-arch/openclaw-OMG
+- GitHub: https://github.com/my-gad/openclaw-OMG
 - 文档：./docs/
 - 变更日志：./CHANGELOG.md

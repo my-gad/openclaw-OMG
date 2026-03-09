@@ -17,7 +17,7 @@
 
 ```bash
 cd /home/administrator/.openclaw/workspace
-git clone https://github.com/ktao732084-arch/openclaw-OMG.git
+git clone https://github.com/my-gad/openclaw-OMG.git
 cd openclaw-OMG
 ```
 
@@ -468,7 +468,7 @@ python3 -m memory_system.cli agent-status
 1. 查看 [常见问题](#常见问题)
 2. 检查日志文件：`memory/*.log`
 3. 运行诊断命令：`python3 -m memory_system.cli status`
-4. 提交 Issue: https://github.com/ktao732084-arch/openclaw-OMG/issues
+4. 提交 Issue: https://github.com/my-gad/openclaw-OMG/issues
 
 ---
 

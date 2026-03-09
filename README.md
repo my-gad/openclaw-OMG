@@ -2,7 +2,7 @@
 
 **Optimized Memory Gateway** - AI Agent 记忆超系统
 
-[![Version](https://img.shields.io/badge/version-1.6.0-blue.svg)](https://github.com/ktao732084-arch/openclaw-OMG)
+[![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)](https://github.com/my-gad/openclaw-OMG)
 [![Python](https://img.shields.io/badge/python-3.8+-green.svg)](https://python.org)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Tests](https://img.shields.io/badge/tests-passing-brightgreen.svg)]()
@@ -15,7 +15,7 @@
 
 ```bash
 # 克隆项目
-git clone https://github.com/ktao732084-arch/openclaw-OMG.git
+git clone https://github.com/my-gad/openclaw-OMG.git
 cd openclaw-OMG
 
 # 初始化记忆系统
@@ -208,7 +208,7 @@ PYTHONPATH=src python3 -m unittest tests.test_memory_manager -v
 
 ```bash
 # 开发环境
-git clone https://github.com/ktao732084-arch/openclaw-OMG.git
+git clone https://github.com/my-gad/openclaw-OMG.git
 cd openclaw-OMG
 pip install -e .
 
@@ -226,15 +226,15 @@ MIT License - 详见 [LICENSE](LICENSE) 文件
 
 ## 👤 作者
 
-- **ktao732084-arch** - [GitHub](https://github.com/ktao732084-arch)
+- **my-gad** - [GitHub](https://github.com/my-gad)
 
 ---
 
 ## 🔗 相关链接
 
-- GitHub: https://github.com/ktao732084-arch/openclaw-OMG
-- 文档：https://github.com/ktao732084-arch/openclaw-OMG/docs
-- 问题反馈：https://github.com/ktao732084-arch/openclaw-OMG/issues
+- GitHub: https://github.com/my-gad/openclaw-OMG
+- 文档：https://github.com/my-gad/openclaw-OMG/docs
+- 问题反馈：https://github.com/my-gad/openclaw-OMG/issues
 
 ---
 

@@ -114,7 +114,7 @@ Before vs After：
 ## 9/9 开源 + 结语
 
 完整代码已开源：
-🔗 github.com/ktao732084-arch/openclaw_memory_supersystem-v1.0
+🔗 github.com/my-gad/openclaw-OMG
 
 医学思维是可迁移的——鉴别诊断的逻辑、对不确定性的处理，都能用在AI系统设计上。
 

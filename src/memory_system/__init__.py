@@ -5,7 +5,7 @@ Memory System - AI Agent 持久化记忆系统
 """
 
 __version__ = "1.6.0"
-__author__ = "ktao732084-arch"
+__author__ = "my-gad"
 __description__ = "AI Agent Memory System inspired by Neuroscience"
 
 # 延迟导入，避免循环导入

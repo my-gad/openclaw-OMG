@@ -367,7 +367,7 @@ python memory.py snapshot
 
 ### 开源地址
 
-GitHub: https://github.com/ktao732084-arch/openclaw_memory_supersystem-v1.0
+GitHub: https://github.com/my-gad/openclaw-OMG
 
 ### 未来计划
 

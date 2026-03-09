@@ -4,8 +4,8 @@
 
 - **版本**: v1.6.0
 - **发布日期**: 2026-03-09
-- **作者**: ktao732084-arch
-- **仓库**: https://github.com/ktao732084-arch/openclaw_memory_supersystem-v1.0
+- **作者**: my-gad
+- **仓库**: https://github.com/my-gad/openclaw-OMG
 
 ---
 
@@ -14,8 +14,8 @@
 ### 方式 1: 克隆仓库
 
 ```bash
-git clone https://github.com/ktao732084-arch/openclaw_memory_supersystem-v1.0.git
-cd openclaw_memory_supersystem-v1.0
+git clone https://github.com/my-gad/openclaw-OMG.git
+cd openclaw-OMG
 
 # 初始化
 export PYTHONPATH=$(pwd)/src:$PYTHONPATH
@@ -142,15 +142,15 @@ OK - 100% 通过
 
 ## 🔗 相关链接
 
-- **GitHub**: https://github.com/ktao732084-arch/openclaw_memory_supersystem-v1.0
-- **问题反馈**: https://github.com/ktao732084-arch/openclaw_memory_supersystem-v1.0/issues
-- **文档**: https://github.com/ktao732084-arch/openclaw_memory_supersystem-v1.0/tree/main/docs
+- **GitHub**: https://github.com/my-gad/openclaw-OMG
+- **问题反馈**: https://github.com/my-gad/openclaw-OMG/issues
+- **文档**: https://github.com/my-gad/openclaw-OMG/tree/main/docs
 
 ---
 
 ## 👤 作者
 
-- **ktao732084-arch**
+- **my-gad**
 - **运维 - 汪维维 (main)**
 
 ---

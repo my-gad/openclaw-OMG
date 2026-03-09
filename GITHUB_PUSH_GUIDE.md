@@ -4,7 +4,7 @@
 
 - **本地版本**: v1.6.0
 - **提交记录**: 已提交 54 个文件，8963 行新增，3875 行删除
-- **远程仓库**: https://github.com/ktao732084-arch/openclaw_memory_supersystem-v1.0
+- **远程仓库**: https://github.com/my-gad/openclaw-OMG
 
 ## 推送步骤
 
@@ -33,7 +33,7 @@ git push origin main --force
 
 ```bash
 # 如果使用 SSH
-git remote set-url origin git@github.com:ktao732084-arch/openclaw_memory_supersystem-v1.0.git
+git remote set-url origin git@github.com:my-gad/openclaw-OMG.git
 git push origin main
 ```
 
@@ -44,7 +44,7 @@ git push origin main
 git remote remove origin
 
 # 添加新的远程（使用 HTTPS）
-git remote add origin https://github.com/ktao732084-arch/openclaw_memory_supersystem-v1.0.git
+git remote add origin https://github.com/my-gad/openclaw-OMG.git
 
 # 推送
 git push -u origin main
@@ -73,7 +73,7 @@ git push origin main
 **解决**:
 ```bash
 # 使用 Personal Access Token
-git remote set-url origin https://<TOKEN>@github.com/ktao732084-arch/openclaw_memory_supersystem-v1.0.git
+git remote set-url origin https://<TOKEN>@github.com/my-gad/openclaw-OMG.git
 git push origin main
 ```
 
@@ -83,7 +83,7 @@ git push origin main
 
 **解决**:
 1. 在 GitHub 上创建新仓库：https://github.com/new
-2. 仓库名：`openclaw_memory_supersystem-v1.0`
+2. 仓库名：`openclaw-OMG`
 3. 然后推送
 
 ## 创建新仓库并推送
@@ -93,10 +93,10 @@ git push origin main
 ```bash
 # 1. 在 GitHub 上创建空仓库
 # 访问：https://github.com/new
-# 仓库名：openclaw_memory_supersystem-v1.0
+# 仓库名：openclaw-OMG
 
 # 2. 添加远程仓库
-git remote add origin https://github.com/ktao732084-arch/openclaw_memory_supersystem-v1.0.git
+git remote add origin https://github.com/my-gad/openclaw-OMG.git
 
 # 3. 推送
 git push -u origin main
@@ -105,7 +105,7 @@ git push -u origin main
 ## 验证推送
 
 推送成功后，访问：
-https://github.com/ktao732084-arch/openclaw_memory_supersystem-v1.0
+https://github.com/my-gad/openclaw-OMG
 
 检查：
 - [ ] 最新提交（v1.6.0）
@@ -137,7 +137,7 @@ echo "📤 推送中..."
 git push origin main
 
 echo "✅ 完成！"
-echo "查看：https://github.com/ktao732084-arch/openclaw_memory_supersystem-v1.0"
+echo "查看：https://github.com/my-gad/openclaw-OMG"
 ```
 
 使用：

@@ -37,7 +37,7 @@ cd /home/administrator/.openclaw/workspace/openclaw-OMG
 ```bash
 # 1. 克隆项目
 cd /home/administrator/.openclaw/workspace
-git clone https://github.com/ktao732084-arch/openclaw-OMG.git
+git clone https://github.com/my-gad/openclaw-OMG.git
 cd openclaw-OMG
 
 # 2. 设置环境变量

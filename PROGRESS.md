@@ -145,7 +145,7 @@ openclaw-OMG/
 
 ## 🔗 相关链接
 
-- GitHub: https://github.com/ktao732084-arch/openclaw-OMG
+- GitHub: https://github.com/my-gad/openclaw-OMG
 - 项目目录：`/home/administrator/.openclaw/workspace/openclaw-OMG/`
 - 主文档：`README.md`, `CHANGELOG.md`, `SKILL.md`
 

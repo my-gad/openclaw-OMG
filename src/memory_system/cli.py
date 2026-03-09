@@ -30,9 +30,31 @@ from memory_system.utils.config import Config
 try:
     from memory_system.multiagent.agent_manager import AgentManager, AgentRole, AgentStatus
     from memory_system.multiagent.organization import OrganizationManager, OrgType
+    from memory_system.multiagent.auto_register import get_or_create_agent
     MULTIAGENT_ENABLED = True
 except ImportError:
     MULTIAGENT_ENABLED = False
+
+
+def ensure_current_agent(memory_dir: Path) -> Optional[str]:
+    """
+    确保当前 Agent 已注册
+    
+    Returns:
+        Agent ID，如果失败返回 None
+    """
+    if not MULTIAGENT_ENABLED:
+        return None
+    
+    try:
+        # 自动注册当前 Agent
+        agent_id, is_new = get_or_create_agent(memory_dir=memory_dir)
+        if is_new:
+            print(f"✅ 自动注册 Agent: {agent_id[:8]}...")
+        return agent_id
+    except Exception as e:
+        print(f"⚠️ 自动注册失败: {e}")
+        return None
 
 
 def get_memory_manager(args) -> Optional[MemoryManager]:
@@ -91,6 +113,9 @@ def add_command(args):
     if not memory_dir.exists():
         print("❌ 记忆系统未初始化，先运行 'memory-system init'")
         return
+    
+    # 确保当前 Agent 已注册
+    ensure_current_agent(memory_dir)
     
     manager = MemoryManager(memory_dir)
     

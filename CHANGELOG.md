@@ -1,5 +1,25 @@
 # Changelog
 
+## [v2.0.1] - 2026-03-10
+
+### 🐛 Bug 修复
+- 修复 Consolidation 各阶段返回值不匹配问题
+- 修复 relative imports 错误（`.conflict_resolver`）
+- 修复 noise_filter 调用参数类型错误
+- 修正 Cron 任务路径，使用动态 Skill 目录
+
+### 🏗️ 架构优化
+- 统一 CLI 路径获取逻辑，减少重复代码
+- 数据目录分离：记忆数据独立存储于 `~/.openclaw/memory/openclaw-omg/`
+- 优化 Pending 队列自动处理流程
+
+### 🧪 功能完善
+- 完善多 Agent 组织架构权限测试
+- 验证组织嵌套和记忆访问控制
+- 初始化时自动安装 Cron 定时任务
+
+---
+
 ## [v2.0.0] - 2026-03-09
 
 ### 🚀 重大更新 - OpenClaw 主配置集成

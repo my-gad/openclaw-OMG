@@ -1,4 +1,4 @@
-# OpenClaw-OMG v2.0.0
+# OpenClaw-OMG v2.0.1
 
 **Optimized Memory Gateway** - AI Agent 三层记忆超系统
 
@@ -216,6 +216,13 @@ API Key 自动从 `~/.openclaw/openclaw.json` 读取。
 
 ## 版本历史
 
+### v2.0.1 (2026-03-10)
+- 修复 Consolidation 各阶段返回值不匹配
+- 修复 relative imports 问题
+- 修复 noise_filter 调用方式
+- 优化记忆目录结构分离
+- 完善多 Agent 组织架构测试
+
 ### v2.0.0 (2026-03-09)
 - 即时记忆捕获 + 自动评分
 - 关键词触发检测
@@ -229,5 +236,5 @@ API Key 自动从 `~/.openclaw/openclaw.json` 读取。
 
 ---
 
-**最后更新:** 2026-03-09  
-**版本:** v2.0.0
+**最后更新:** 2026-03-10  
+**版本:** v2.0.1

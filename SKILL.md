@@ -1,7 +1,7 @@
 ---
 name: openclaw-omg
-version: 2.0.0
-description: "OpenClaw-OMG (Optimized Memory Gateway) v2.0 - 三层记忆架构系统。即时捕获、自动评分、关键词触发、快照注入、OpenClaw 深度集成。"
+version: 2.0.1
+description: "OpenClaw-OMG (Optimized Memory Gateway) v2.0.1 - 三层记忆架构系统。即时捕获、自动评分、关键词触发、快照注入、OpenClaw 深度集成。"
 metadata:
   openclaw:
     emoji: "🧠"

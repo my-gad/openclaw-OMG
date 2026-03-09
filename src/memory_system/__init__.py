@@ -4,7 +4,7 @@ Memory System - AI Agent 持久化记忆系统
 一个受神经科学启发的三层记忆架构系统。
 """
 
-__version__ = "2.0.0"
+__version__ = "2.0.1"
 __author__ = "my-gad"
 __description__ = "AI Agent Memory System inspired by Neuroscience"
 

@@ -104,8 +104,35 @@ class ConsolidationEngine:
                 "kept": 0,
                 "archived": 0,
                 "deleted": 0,
+                "pending_processed": 0,
             }
         }
+        
+        # 0. 处理待处理队列 (penging → active)
+        from memory_system.core.memory_capture import load_pending, save_pending
+        pending_path = self.memory_manager.memory_dir / "layer2" / "pending.jsonl"
+        if pending_path.exists():
+            pending = load_pending(self.memory_manager.memory_dir)
+            pending_count = len(pending)
+            if pending_count > 0:
+                print(f"📦 处理待处理队列: {pending_count} 条")
+                for item in pending:
+                    # 转换为 MemoryRecord 并添加
+                    record = MemoryRecord(
+                        content=item["content"],
+                        memory_type=MemoryType.FACT,  # 默认 fact，后续分类
+                        confidence=item.get("importance", 0.5),
+                        source=item.get("source", "pending"),
+                    )
+                    try:
+                        self.memory_manager.add(record)
+                        report["summary"]["pending_processed"] = report["summary"].get("pending_processed", 0) + 1
+                    except Exception as e:
+                        print(f"⚠️ 添加 pending 记忆失败: {e}")
+                
+                # 清空 pending（已迁移）
+                save_pending(self.memory_manager.memory_dir, [])
+                print(f" ✅ 待处理队列已清空，{report['summary']['pending_processed']} 条记忆已迁移至 active")
         
         # Phase 1: 收集
         report["phases"]["phase1"] = self._phase1_collect(events)
@@ -131,7 +158,7 @@ class ConsolidationEngine:
         report["phases"]["phase6"] = phase6_report
         
         # Phase 7: 快照
-        snapshot, phase7_report = self._phase7_snapshot()
+        phase7_report = self._phase7_snapshot()
         report["phases"]["phase7"] = phase7_report
         
         # 更新统计
@@ -158,8 +185,9 @@ class ConsolidationEngine:
         for event in events:
             content = event.get("content", "")
             
-            # 使用废话过滤器
-            is_noise, category = self.noise_filter.is_noise(content)
+            # 使用废话过滤器（传入完整 event dict）
+            is_noise = self.noise_filter.is_noise(event)
+            category = "general"  # 默认类别
             
             if is_noise:
                 filtered_count += 1
@@ -192,20 +220,28 @@ class ConsolidationEngine:
             "status": "completed",
         }
     
-    def _phase4_classify(self, events: List[Dict]) -> List[Dict]:
-        """Phase 4: 分类为 Fact/Belief/Summary"""
+    def _phase4_classify(self, events: List[Dict]) -> Tuple[List[Dict], Dict]:
+        """Phase 4: 分类记忆类型"""
         classified = []
         
         for event in events:
-            # 简化实现：默认归类为 Fact
-            # TODO: 使用 MemoryOperator 分类
-            memory_type = event.get("type", "fact")
+            # 简化：使用关键词判断
+            content = event.get("content", "").lower()
+            if any(kw in content for kw in ["喜欢", "讨厌", "偏好", "愿意", "不愿意"]):
+                memory_type = "belief"  # 信念/偏好
+            else:
+                memory_type = "fact"    # 事实
+            
             classified.append({
                 **event,
                 "memory_type": memory_type,
             })
         
-        return classified
+        return classified, {
+            "name": "分类",
+            "count": len(classified),
+            "status": "completed",
+        }
     
     def _phase5_decay(self, items: List[Dict]) -> Tuple[List[Dict], Dict]:
         """Phase 5: 应用衰减"""

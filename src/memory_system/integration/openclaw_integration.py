@@ -17,11 +17,10 @@ from datetime import datetime
 
 
 # 路径配置
-# Skill 目录 - 代码位置
-SKILL_DIR = Path(__file__).parent.parent.parent.parent
-# 记忆目录 - 独立存储，卸载 Skill 不丢失
-OPENCLAW_MEMORY_DIR = Path.home() / ".openclaw" / "memory" / "openclaw-omg"
+# Skill 目录 - 自动根据模块位置计算
+SKILL_DIR = Path(__file__).parent.parent.parent.parent.resolve()
 OPENCLAW_CONFIG_PATH = Path.home() / ".openclaw" / "openclaw.json"
+OPENCLAW_MEMORY_DIR = SKILL_DIR / "memory"
 
 
 def get_openclaw_config() -> Dict:
@@ -177,8 +176,8 @@ def generate_cron_config() -> str:
     Returns:
         Crontab 配置行
     """
-    # Skill 目录（存放代码）
-    skill_dir = Path.home() / ".openclaw" / "skills" / "openclaw-omg"
+    # 使用模块位置计算出的 Skill 目录
+    skill_dir = SKILL_DIR
     
     # 每天凌晨 3 点执行 Consolidation
     cron_line = "0 3 * * * cd {} && PYTHONPATH=src python3 -m memory_system.cli consolidate >> /tmp/omg_consolidation.log 2>&1".format(

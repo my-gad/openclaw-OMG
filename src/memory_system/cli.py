@@ -57,11 +57,15 @@ def ensure_current_agent(memory_dir: Path) -> Optional[str]:
         return None
 
 
+def get_memory_dir(args) -> Path:
+    """获取记忆目录（统一路径处理）"""
+    default_memory_dir = Path.home() / ".openclaw" / "memory" / "openclaw-omg"
+    return Path(args.dir) if hasattr(args, 'dir') and args.dir else default_memory_dir
+
+
 def get_memory_manager(args) -> Optional[MemoryManager]:
     """获取记忆管理器实例"""
-    # 默认使用 OpenClaw 记忆目录
-    default_memory_dir = Path.home() / ".openclaw" / "memory" / "openclaw-omg"
-    memory_dir = Path(args.dir) if hasattr(args, 'dir') and args.dir else default_memory_dir
+    memory_dir = get_memory_dir(args)
     if not memory_dir.exists():
         return None
     return MemoryManager(memory_dir)
@@ -71,9 +75,7 @@ def init_command(args):
     """初始化记忆系统"""
     print(f"🧠 初始化 Memory System v{__version__}")
     
-    # 默认使用 OpenClaw 记忆目录
-    default_memory_dir = Path.home() / ".openclaw" / "memory" / "openclaw-omg"
-    memory_dir = Path(args.dir) if args.dir else default_memory_dir
+    memory_dir = get_memory_dir(args)
     
     # 创建目录结构
     dirs = [
@@ -223,12 +225,40 @@ def consolidate_command(args):
     """执行记忆整合"""
     print("🔄 执行记忆整合...")
     
-    memory_dir = Path(args.dir) if args.dir else Path.home() / ".openclaw" / "memory" / "openclaw-omg"
+    memory_dir = get_memory_dir(args)
     if not memory_dir.exists():
         print("❌ 记忆系统未初始化")
         return
     
     manager = MemoryManager(memory_dir)
+    
+    # 0. 处理待处理队列 (penging → active)
+    from memory_system.core.memory_capture import load_pending, save_pending
+    pending_path = memory_dir / "layer2" / "pending.jsonl"
+    if pending_path.exists():
+        pending = load_pending(memory_dir)
+        if pending:
+            print(f"📦 处理待处理队列: {len(pending)} 条")
+            from memory_system.core.memory_manager import MemoryRecord, MemoryType
+            added_count = 0
+            for item in pending:
+                # Pending 记录作为 EVENT 类型，待整合
+                record = MemoryRecord(
+                    content=item["content"],
+                    memory_type=MemoryType.EVENT,
+                    confidence=item.get("importance", 0.5),
+                    source=item.get("source", "pending"),
+                    tags=[f"pending:{item.get('category', 'fact')}"],
+                )
+                try:
+                    manager.add(record)
+                    added_count += 1
+                except Exception as e:
+                    print(f"⚠️ 添加 pending 记忆失败: {e}")
+            # 清空 pending
+            save_pending(memory_dir, [])
+            print(f" ✅ 待处理队列已迁移: {added_count} 条")
+    
     events = manager.get_all(MemoryType.EVENT)
     
     if not events:

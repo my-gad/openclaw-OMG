@@ -58,11 +58,11 @@ class MemoryOperator:
         self.backend = backend
         
         # 冲突解决器
-        from conflict_resolver import ConflictResolver
+        from .conflict_resolver import ConflictResolver
         self.conflict_resolver = ConflictResolver(backend=backend)
         
         # 噪声过滤器
-        from noise_filter import NoiseFilter
+        from .noise_filter import NoiseFilter
         self.noise_filter = NoiseFilter(llm_client=llm_client, strict_mode=False)
         
         # 统计信息

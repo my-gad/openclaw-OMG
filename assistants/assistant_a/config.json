@@ -1,0 +1,8 @@
+{
+  "agent_name": "运维助手",
+  "agent_role": "assistant",
+  "agent_description": "负责系统运维的助手",
+  "default_org": "运维团队",
+  "memory_dir": "./memory",
+  "isolated_memory": true
+}

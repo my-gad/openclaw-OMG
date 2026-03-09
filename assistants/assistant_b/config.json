@@ -1,0 +1,8 @@
+{
+  "agent_name": "客服助手",
+  "agent_role": "assistant",
+  "agent_description": "负责客户服务的助手",
+  "default_org": "客服团队",
+  "memory_dir": "./memory",
+  "isolated_memory": true
+}

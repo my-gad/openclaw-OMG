@@ -137,6 +137,46 @@ def add_command(args):
     print(f"✅ 记忆已添加，ID: {record_id}")
 
 
+def capture_command(args):
+    """即时捕获记忆（自动评分）"""
+    content = args.content
+    source = args.source or "user"
+    session_id = args.session
+    message_index = args.index
+    
+    print(f"📸 捕获记忆：{content[:50]}...")
+    
+    memory_dir = Path(args.dir) if args.dir else Path("./memory")
+    if not memory_dir.exists():
+        print("❌ 记忆系统未初始化，先运行 'memory-system init'")
+        return
+    
+    # 确保当前 Agent 已注册
+    ensure_current_agent(memory_dir)
+    
+    # 导入捕获模块
+    from memory_system.core.memory_capture import capture_memory, detect_trigger_layer
+    
+    # 检测触发层
+    layer, trigger_type, keywords = detect_trigger_layer(content)
+    
+    # 捕获记忆
+    record = capture_memory(
+        memory_dir=memory_dir,
+        content=content,
+        source=source,
+        session_id=session_id,
+        message_index=message_index,
+    )
+    
+    print(f"✅ 记忆已捕获")
+    print(f"   重要性: {record['importance']:.1f}")
+    print(f"   类别: {record['category']}")
+    print(f"   触发层: {layer}")
+    if record.get('session_id'):
+        print(f"   来源: {record['session_id']}:{record.get('message_index', '?')}")
+
+
 def search_command(args):
     """搜索记忆"""
     query = args.query
@@ -219,11 +259,16 @@ def status_command(args):
                 except:
                     pass
     
+    # 待处理队列
+    from memory_system.core.memory_capture import get_pending_count
+    pending_count = get_pending_count(memory_dir)
+    
     print("存储统计:")
     print(f" - Facts:     {stats['facts']:>6} 条")
     print(f" - Beliefs:   {stats['beliefs']:>6} 条")
     print(f" - Summaries: {stats['summaries']:>6} 条")
     print(f" - Events:    {stats.get('events', 0):>6} 条")
+    print(f" - 待处理:    {pending_count:>6} 条")
     
     db_path = memory_dir / "layer2" / "memories.db"
     if db_path.exists():
@@ -468,6 +513,14 @@ def main():
     p.add_argument("--confidence", type=float, default=0.8)
     p.add_argument("--tags", help="标签（逗号分隔）")
     p.set_defaults(func=add_command)
+    
+    # capture - 即时捕获记忆
+    p = subparsers.add_parser("capture", help="即时捕获记忆（自动评分）")
+    p.add_argument("content", help="记忆内容")
+    p.add_argument("--source", choices=["user", "assistant", "system"], default="user", help="来源")
+    p.add_argument("--session", help="会话 ID")
+    p.add_argument("--index", type=int, help="消息索引")
+    p.set_defaults(func=capture_command)
     
     # search
     p = subparsers.add_parser("search", help="搜索记忆")
